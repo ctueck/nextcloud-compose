@@ -24,7 +24,7 @@ services:
     image: nextcloud:28-fpm-alpine
     volumes:
       - html:/var/www/html
-      - files:/var/www/html/data
+      - files:${FILES_MOUNT:-/var/www/html/data}
     environment:
       REDIS_HOST: redis
       MYSQL_HOST: db
@@ -51,7 +51,7 @@ services:
     image: nextcloud:28-fpm-alpine
     volumes:
       - html:/var/www/html
-      - files:/var/www/html/data
+      - files:${FILES_MOUNT:-/var/www/html/data}
     environment:
       REDIS_HOST: redis
       MYSQL_HOST: db
