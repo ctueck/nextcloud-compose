@@ -34,6 +34,7 @@ services:
     depends_on:
       - db
       - redis
+      - collabora
 
   web:
     image: nginx:${NGINX_TAG:-latest}
@@ -61,6 +62,20 @@ services:
       - redis
     entrypoint: /cron.sh
     init: true
+
+  collabora:
+    image: collabora/code
+    ports:
+      - "${COLLABORA_PORT:-9980}:9980"
+    volumes:
+      - /usr/local/share/fonts/:/opt/collaboraoffice6.4/share/fonts/truetype/local:ro
+    environment:
+      DONT_GEN_SSL_CERT: 1
+      aliasgroup1: ${CODE_ALIASGROUP1}
+      aliasgroup2: ${CODE_ALIASGROUP2}
+      username: admin
+      password: ${CODE_PASSWORD}
+      extra_params: "--o:ssl.enable=false  --o:ssl.termination=true"
 
 volumes:
   data:
