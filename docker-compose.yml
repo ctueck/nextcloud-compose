@@ -21,8 +21,9 @@ services:
       - redis:/data
 
   app:
-    image: nextcloud:28-fpm-alpine
+    image: nextcloud:29-fpm-alpine
     volumes:
+      - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini:ro
       - html:/var/www/html
       - files:${FILES_MOUNT:-/var/www/html/data}
     environment:
@@ -48,8 +49,9 @@ services:
       - app
 
   cron:
-    image: nextcloud:28-fpm-alpine
+    image: nextcloud:29-fpm-alpine
     volumes:
+      - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini
       - html:/var/www/html
       - files:${FILES_MOUNT:-/var/www/html/data}
     environment:
