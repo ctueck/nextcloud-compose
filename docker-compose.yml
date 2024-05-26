@@ -3,7 +3,7 @@ version: '3'
 services:
 
   db:
-    image: mariadb:${MARIADB_TAG:-latest}
+    image: mariadb:11
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d:ro
@@ -13,6 +13,7 @@ services:
       MARIADB_USER: ${DB_USER:-nextcloud}
       MARIADB_PASSWORD: ${DB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_AUTO_UPGRADE: 1
 
   redis:
     image: redis:alpine
@@ -20,7 +21,7 @@ services:
       - redis:/data
 
   app:
-    image: nextcloud:${NEXTCLOUD_TAG:-fpm-alpine}
+    image: nextcloud:28-fpm-alpine
     volumes:
       - html:/var/www/html
       - files:/var/www/html/data
@@ -47,7 +48,7 @@ services:
       - app
 
   cron:
-    image: nextcloud:${NEXTCLOUD_TAG:-fpm-alpine}
+    image: nextcloud:28-fpm-alpine
     volumes:
       - html:/var/www/html
       - files:/var/www/html/data
