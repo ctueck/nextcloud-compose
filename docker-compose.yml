@@ -1,9 +1,7 @@
-version: '3'
-
 services:
 
   db:
-    image: mariadb:11
+    image: mariadb:11.4
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d:ro
@@ -21,7 +19,7 @@ services:
       - redis:/data
 
   app:
-    image: nextcloud:29-fpm-alpine
+    image: nextcloud:30-fpm-alpine
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini:ro
       - html:/var/www/html
@@ -49,7 +47,7 @@ services:
       - app
 
   cron:
-    image: nextcloud:29-fpm-alpine
+    image: nextcloud:30-fpm-alpine
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini
       - html:/var/www/html
@@ -71,7 +69,7 @@ services:
     ports:
       - "${COLLABORA_PORT:-9980}:9980"
     volumes:
-      - /usr/local/share/fonts/:/opt/collaboraoffice6.4/share/fonts/truetype/local:ro
+      - /usr/local/share/fonts/:/opt/collaboraoffice/share/fonts/truetype/local:ro
     environment:
       DONT_GEN_SSL_CERT: 1
       aliasgroup1: ${CODE_ALIASGROUP1}
