@@ -19,7 +19,7 @@ services:
       - redis:/data
 
   app:
-    image: nextcloud:31-fpm-alpine
+    image: nextcloud:32-fpm-alpine
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini:ro
       - html:/var/www/html
@@ -47,7 +47,7 @@ services:
       - app
 
   cron:
-    image: nextcloud:31-fpm-alpine
+    image: nextcloud:32-fpm-alpine
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini
       - html:/var/www/html
