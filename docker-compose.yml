@@ -22,6 +22,7 @@ services:
     image: nextcloud:32-fpm-alpine
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini:ro
+      - ./php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-local.conf:ro
       - html:/var/www/html
       - files:${FILES_MOUNT:-/var/www/html/data}
     environment:
