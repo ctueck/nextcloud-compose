@@ -37,6 +37,7 @@ services:
       - db
       - redis
       - collabora
+      - push
 
   web:
     image: nginx:1-alpine
@@ -64,6 +65,26 @@ services:
       - db
       - redis
     entrypoint: /cron.sh
+    init: true
+
+  push:
+    image: nextcloud:32-fpm-alpine
+    volumes:
+      - ./php.ini:/usr/local/etc/php/conf.d/zz-local-php.ini
+      - html:/var/www/html
+      - files:${FILES_MOUNT:-/var/www/html/data}:ro
+    environment:
+      REDIS_HOST: redis
+      MYSQL_HOST: db
+      MYSQL_DATABASE: ${DB_NAME:-nextcloud}
+      MYSQL_USER: ${DB_USER:-nextcloud}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - db
+      - redis
+    user: www-data
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: [ "[ -d /var/www/html/custom_apps/notify_push/bin/$(uname -m) ] && /var/www/html/custom_apps/notify_push/bin/$(uname -m)/notify_push /var/www/html/config/config.php --log-level info" ]
     init: true
 
   collabora:
