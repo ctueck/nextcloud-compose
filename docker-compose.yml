@@ -32,6 +32,7 @@ services:
       MYSQL_USER: ${DB_USER:-nextcloud}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       TRUSTED_PROXIES: ${NGINX_TRUSTED_PROXIES:-10.0.0.0/8 172.17.0.0/12 192.168.0.0/16}
+      PHP_FPM_MAX_CHILDREN: ${PHP_FPM_MAX_CHILDREN:-5}
     depends_on:
       - db
       - redis
