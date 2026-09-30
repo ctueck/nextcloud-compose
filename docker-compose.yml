@@ -87,6 +87,12 @@ services:
     command: [ "[ -d /var/www/html/custom_apps/notify_push/bin/$(uname -m) ] && /var/www/html/custom_apps/notify_push/bin/$(uname -m)/notify_push /var/www/html/config/config.php --log-level info" ]
     init: true
 
+  whiteboard:
+    image: ghcr.io/nextcloud-releases/whiteboard:stable
+    environment:
+      NEXTCLOUD_URL: ${PUBLIC_URL}
+      JWT_SECRET_KEY: ${WHITEBOARD_SECRET}
+
   collabora:
     image: collabora/code
     ports:
