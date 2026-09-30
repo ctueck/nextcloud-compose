@@ -36,7 +36,7 @@ services:
     depends_on:
       - db
       - redis
-      - collabora
+      - office
       - push
 
   web:
@@ -93,19 +93,13 @@ services:
       NEXTCLOUD_URL: ${PUBLIC_URL}
       JWT_SECRET_KEY: ${WHITEBOARD_SECRET}
 
-  collabora:
-    image: collabora/code
+  office:
+    image: ghcr.io/euro-office/documentserver:latest
     ports:
-      - "${COLLABORA_PORT:-9980}:9980"
-    volumes:
-      - /usr/local/share/fonts/:/opt/collaboraoffice/share/fonts/truetype/local:ro
+      - "${OFFICE_PORT:-9880}:80"
     environment:
-      DONT_GEN_SSL_CERT: 1
-      aliasgroup1: ${CODE_ALIASGROUP1}
-      aliasgroup2: ${CODE_ALIASGROUP2}
-      username: admin
-      password: ${CODE_PASSWORD}
-      extra_params: "--o:ssl.enable=false  --o:ssl.termination=true"
+      JWT_ENABLED: true
+      JWT_SECRET: ${OFFICE_SECRET}
 
 volumes:
   data:
